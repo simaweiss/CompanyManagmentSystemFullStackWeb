@@ -1,0 +1,59 @@
+﻿@model UserManagmentSystem.Models.User
+@{
+
+    ViewData["Title"] = "PersonalAndCompanyDetailts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+ 
+}
+
+<h2>Please Fill In The Following Details</h2>
+<br />
+
+@using (Html.BeginForm())
+{
+    <div class="form-row">
+        <div class="col">
+            <input type="text" class="form-control" placeholder="First name" id="firstName" name="firstName" value=@Model.FirstName>
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" placeholder="Last name" id="lastName" name="lastName" value=@Model.LastName>
+        </div>
+    </div>
+    <br />
+    <div class="form-row">
+        <div class="col">
+            <input type="text" class="form-control" placeholder="User ID" id="userId" name="userId" value=@Model.UserID>
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" placeholder="Birth Date" id="birthDate" name="birthDate" value=@Model.DateOfBirth>
+        </div>
+    </div>
+    <br />
+    <div class="form-row">
+        <div class="col">
+            <input type="text" class="form-control" placeholder="Phoner Number" id="phoneNumber" name="phoneNumber" required="required" value=@Model.PhoneNumber>
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" placeholder="Email" id="email" name="email" value=@Model.Email>
+        </div>
+    </div>
+    <br />
+    <div class="form-row">
+        <div class="col">
+            <input type="text" class="form-control" placeholder="Company Name" id="companyName" name ="companyName" value=@Model.CompanyName>
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" placeholder="Company Number" id="companyId" name="companyId" value=@Model.CompanyID>
+        </div>
+    </div>
+    <br />
+
+    <input type="submit" class="btn btn-success" value="Next" />
+  
+
+}
+
+
+
+
+

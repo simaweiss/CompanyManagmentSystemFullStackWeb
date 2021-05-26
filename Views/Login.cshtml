@@ -1,0 +1,29 @@
+﻿@{
+
+    ViewData["Title"] = "Login";
+    string msg = ViewData["msg"] as string; 
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    @using (Html.BeginForm())
+    {
+
+        <label>User ID</label>
+        <input type="text" class="form-control" id="userid" name="userid" />
+
+        <label>Password</label>
+        <input type="text" class="form-control" id="pwd" name="pwd" />
+        <br />
+        <input asp-action="Login" type="submit" class="btn btn-success" value="Submit" />
+        <p>@msg</p>
+    }
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,200 @@
+﻿@model UserManagmentSystem.Models.User;
+@{
+    ViewData["Title"] = "BankAccounts";
+    
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h3>Please Fill In Bank Accounts</h3>
+<h3> For Company: @Model.CompanyName</h3>
+<br />
+<p>Compoand ID: @Model.CompanyID</p>
+<form id="frmBankAccounts">
+
+    <table>
+        <tbody id="myTable">
+            <tr>
+                <td> % Company Stoucks Percentage </td>
+               
+                <td><input type="text" class="form-control" id="stoucks"></td>
+            </tr>
+            <tr>
+                <td>
+                    Bank Name
+                </td>
+                <td>
+                    <select id="name1" required="required" class="form-control">
+                        <option value="Hapoalim" selected>Hapoalim</option>
+                        <option value="Leumi">Leumi</option>
+                        <option value="Diskonet">Diskonet</option>
+                    </select>
+                </td>
+                <td>
+                    Bank Branch Number
+                </td>
+                <td>
+                    <input type="text" id="branch1" class="form-control" />
+                </td>
+                <td>
+                    Bank Account Number
+                </td>
+                <td>
+                    <input type="text" id="bankId1" class="form-control" />
+                </td>
+                <td>
+                    <input onclick="deleteRow(this)" type="button" id="btnremove" class="form-control" value="Remove" />
+                </td>
+            </tr>
+
+        </tbody>
+        <tr>
+            <td>
+                <input onclick="addRow()" type="button" id="btnadd" class="form-control" value="Add" />
+            </td>
+
+        </tr>
+
+        <tr>
+            <td>
+                <input onclick="Submit()" type="button" id="btnsubmit" class="form-control" value="Submit" />
+            </td>
+
+        </tr>
+
+    </table>
+
+</form>
+
+
+<script>
+
+    function deleteRow(tr) {
+        var i = tr.parentNode.parentNode.rowIndex;
+        document.getElementById("myTable").deleteRow(i);
+    }
+
+    function addRow() {
+      
+        var rowCount = document.getElementById("myTable").rows.length;
+
+        var table = document.getElementById("myTable");
+        var row = table.insertRow(rowCount);
+        var cell0 = row.insertCell(0);
+        cell0.innerHTML = "Bank Name";
+        var cell1 = row.insertCell(1);
+        var element1 = document.createElement('select');
+
+       
+        element1.id = name = "name" + rowCount + "";
+        element1.className = "form-control";
+        var option1 = document.createElement("option");
+        option1.text = "Hapoalim";
+        option1.value = "Hapoalim";
+        option1.selected = "Hapoalim"
+        element1.options.add(option1); 
+      
+        var option2 = document.createElement("option");
+        option2.text = "Leumi";
+        option2.value = "Leumi";
+        element1.options.add(option2);
+        
+
+        var option3 = document.createElement("option");
+        option3.text = "Diskonet";
+        option3.value = "Diskonet";
+        element1.options.add(option3);
+
+        cell1.appendChild(element1);
+
+        var cell2 = row.insertCell(2);
+        cell2.innerHTML = "Bank Branch Number";
+        var cell3 = row.insertCell(3);
+        var element3 = document.createElement('input');
+        element3.type = "text";
+        element3.id = name = "branch" + rowCount + "";
+        element3.className = "form-control";
+        cell3.appendChild(element3);
+
+        var cell4 = row.insertCell(4);
+        cell4.innerHTML = "Bank Account Number";
+        var cell5 = row.insertCell(5);
+        var element5 = document.createElement('input');
+        element5.type = "text";
+        element5.id = name = "bankId" + rowCount + "";
+        element5.className = "form-control";
+        cell5.appendChild(element5);
+        var cell6 = row.insertCell(6);
+        var element6 = document.createElement('input');
+        element6.type = "button";
+        element6.id = "btnremove";
+        element6.addEventListener('click', function () {
+            deleteRow(this);
+        })
+        element6.value = "Remove";
+        element6.className = "form-control";
+        cell6.appendChild(element6);
+    }
+
+
+    function GetAllData() {
+
+        var data = [];
+        var rowCount = document.getElementById("myTable").rows.length;
+        console.log(rowCount);
+
+        var index = 1; // begin in row index 1 
+        while (index < rowCount) {
+            var userId = ""+ @Model.UserID;
+            var stoucks = document.getElementById("stoucks").value;
+            var bankName = document.getElementById("name" + index).value;
+            console.log(bankName);
+            var bankBranchNumber = document.getElementById("branch" + index).value;
+            console.log(bankBranchNumber);
+            var bankId = document.getElementById("bankId" + index).value;
+            console.log(bankId);
+
+            var BankObj = {
+                BankID: bankId,
+                UserID: userId,
+                BankName: bankName,
+                BankBranchNumber: bankBranchNumber,
+                CompanyStocksPercentage: stoucks
+            }
+            console.log(BankObj);
+            data.push(BankObj);
+            index++;
+            console.log(index);
+        }
+
+
+        console.log(data);
+        return data;
+
+    }
+
+  // Auto save to data base
+
+   // setTimeout(Submit , 15000);
+
+    function Submit() {
+        var banks = [];
+        banks = GetAllData();
+        console.log(banks);
+        banks = JSON.stringify(banks);
+        //console.log(banks);
+        
+        $.ajax({
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            type: 'POST',
+            url: '/Users/BankAccountssInsert',
+            data: banks
+
+        });
+
+    }
+
+
+
+
+
+</script>
